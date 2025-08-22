@@ -19,7 +19,8 @@ API ini digunakan untuk sistem absensi berbasis **Face Recognition** dengan **We
 Digunakan untuk mengirimkan gambar dalam format **Base64** agar server mengenali wajah.
 
 - **URL**
-ws://localhost:8000/ws/attendance
+- ws://localhost:8000/ws/attendance
+- GET //localhost:8000/users/all
 
 - **Request (Client → Server)**
 ```json
