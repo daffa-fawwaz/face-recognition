@@ -5,7 +5,7 @@ import numpy as np
 def get_face_encoding(image):
     encodings = face_recognition.face_encodings(image)
     if len(encodings) > 0:
-        return encodings[0].tolist()  # simpan ke DB
+        return encodings[0].tolist()
     return None
 
 def compare_faces(known_encodings, face_encoding, tolerance=0.45):
