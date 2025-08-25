@@ -12,13 +12,23 @@ class User(Base):
     face_embedding = Column(JSON)   # simpan vector encoding
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    attendances = relationship("Attendance", back_populates="user")
+    LogLaptop = relationship("log_laptop", back_populates="user")
+    LogHp = relationship("log_hp", back_populates="user")
 
-class Attendance(Base):
-    __tablename__ = "attendance"
+class LogLaptop(Base):
+    __tablename__ = "log_laptop"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     status = Column(Enum("HADIR","SAKIT","IZIN", name="status_enum"), default="HADIR")
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="attendances")
+    user = relationship("User", back_populates="log_laptop")
+
+class LogHp(Base):
+    __tablename__ = "log_hp"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    status = Column(Enum("HADIR","SAKIT","IZIN", name="status_enum"), default="HADIR")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="log_hp")
