@@ -17,7 +17,7 @@ def b64_to_cv2_img(b64str):
 
 @router.get("/start")
 def start_attendance():
-    cap = cv2.VideoCapture(0)  # kamera server
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         return JSONResponse(content={"error": "Kamera tidak bisa diakses"}, status_code=500)
 
