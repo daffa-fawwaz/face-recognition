@@ -4,7 +4,7 @@ import face_recognition
 import numpy as np
 import cv2
 from app.database import SessionLocal
-from app.models import User, Attendance
+from app.models import User, LogLaptop, LogHp
 from app.services.face_service import get_face_encoding
 
 router = APIRouter()
@@ -31,10 +31,10 @@ async def register_user(name: str = Form(...), file: UploadFile = File(...)):
     return {"message": "User registered", "user_id": user.id}
 
 
-@router.get("/all")
+@router.get("/all/log-laptop")
 def get_all_attendance():
     db = SessionLocal()
-    records = db.query(Attendance).join(User).all()
+    records = db.query(LogLaptop).join(User).all()
 
     result = []
     for r in records:
@@ -42,8 +42,29 @@ def get_all_attendance():
             "id": r.id,
             "user_id": r.user_id,
             "name": r.user.name if r.user else None,
-            "status": r.status,
+            "mengambil": r.mengambil,
+            "mengambil": r.mengambil,
+            "mengembalikan": r.mengembalikan,
             "created_at": r.created_at.strftime("%Y-%m-%d %H:%M:%S")
         })
 
-    return {"attendance": result}
+    return {"log-laptop": result}
+
+@router.get("/all/log-hp")
+def get_all_attendance():
+    db = SessionLocal()
+    records = db.query(LogHp).join(User).all()
+
+    result = []
+    for r in records:
+        result.append({
+            "id": r.id,
+            "user_id": r.user_id,
+            "name": r.user.name if r.user else None,
+            "mengambil": r.mengambil,
+            "mengambil": r.mengambil,
+            "mengembalikan": r.mengembalikan,
+            "created_at": r.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+    return {"log-hp": result}
