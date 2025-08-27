@@ -43,7 +43,6 @@ def get_all_attendance():
             "user_id": r.user_id,
             "name": r.user.name if r.user else None,
             "mengambil": r.mengambil,
-            "mengambil": r.mengambil,
             "mengembalikan": r.mengembalikan,
             "created_at": r.created_at.strftime("%Y-%m-%d %H:%M:%S")
         })
@@ -61,7 +60,6 @@ def get_all_attendance():
             "id": r.id,
             "user_id": r.user_id,
             "name": r.user.name if r.user else None,
-            "mengambil": r.mengambil,
             "mengambil": r.mengambil,
             "mengembalikan": r.mengembalikan,
             "created_at": r.created_at.strftime("%Y-%m-%d %H:%M:%S")
