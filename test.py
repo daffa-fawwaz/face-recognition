@@ -21,3 +21,4 @@ resp = ws.recv()
 print("Response:", resp)
 
 ws.close()
+

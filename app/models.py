@@ -9,10 +9,9 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(225))
-    face_embedding = Column(JSON)   # simpan vector encoding
+    face_embedding = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    # relasi harus lowercase dan konsisten dengan back_populates di log
     log_laptops = relationship("LogLaptop", back_populates="user")
     log_hps = relationship("LogHp", back_populates="user")
 
