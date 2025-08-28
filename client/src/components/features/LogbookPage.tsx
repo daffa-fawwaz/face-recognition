@@ -1,9 +1,9 @@
 import { Laptop, Smartphone } from "lucide-react";
 
-export default function RiwayatContent() {
+export default function LogbookPage() {
   return (
     <div className="space-y-6">
-      <h3 className="text-2xl font-bold">Riwayat Peminjaman Perangkat</h3>
+      <h3 className="text-2xl font-bold">Logbook</h3>
 
       <div className="bg-white p-4 rounded-lg shadow-md">
         <div className="flex flex-wrap space-x-4 mb-4">

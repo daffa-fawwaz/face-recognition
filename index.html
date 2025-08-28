@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Face Attendance Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      video {
+        border: 2px solid black;
+        border-radius: 8px;
+      }
+      #results {
+        margin-top: 20px;
+      }
+      .status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 4px;
+      }
+      .success {
+        background: #4caf50;
+        color: white;
+      }
+      .notfound {
+        background: #f44336;
+        color: white;
+      }
+      .controls {
+        margin-top: 15px;
+      }
+      button {
+        padding: 6px 12px;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Face Attendance WebSocket Test</h2>
+    <video id="video" width="320" height="240" autoplay></video>
+    <div class="controls">
+      <button onclick="setAction('mengambil')">Ambil</button>
+      <button onclick="setAction('mengembalikan')">Kembalikan</button>
+    </div>
+    <div id="results"></div>
+
+    <script>
+      const video = document.getElementById("video");
+      const resultsDiv = document.getElementById("results");
+
+      let currentAction = "mengambil"; // default action
+
+      function setAction(action) {
+        currentAction = action;
+        console.log("Action diset ke:", action);
+      }
+
+      // connect websocket
+      const ws = new WebSocket("ws://localhost:8000/ws/log-hp");
+
+      ws.onopen = () => {
+        console.log("Connected to WebSocket server");
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log("Response dari server:", data);
+
+        resultsDiv.innerHTML = ""; // reset tampilan
+        data.results.forEach((r) => {
+          const div = document.createElement("div");
+          div.classList.add("status");
+
+          if (r.status && r.status.endsWith("_SUCCESS")) {
+            div.classList.add("success");
+          } else if (r.status === "NOT_FOUND") {
+            div.classList.add("notfound");
+          } else {
+            div.classList.add("notfound");
+          }
+
+          div.textContent = `${r.name || "Unknown"} → ${r.status}`;
+          resultsDiv.appendChild(div);
+        });
+      };
+
+      // aktifkan kamera
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          alert("Tidak bisa akses kamera: " + err);
+        });
+
+      // ambil frame dan kirim setiap 2 detik
+      function sendFrame() {
+        if (video.videoWidth === 0 || video.videoHeight === 0) return; // hindari error
+
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0);
+
+        const frameData = canvas.toDataURL("image/jpeg");
+
+        ws.send(JSON.stringify({ frame: frameData, action: currentAction }));
+      }
+
+      setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          sendFrame();
+        }
+      }, 2000);
+    </script>
+  </body>
+</html>

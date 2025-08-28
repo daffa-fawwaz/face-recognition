@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import FloatingButton from "./FloatingButton";
-import BackButton from "./BackButton";
+import FloatingButton from "../ui/FloatingButton";
+import BackButton from "../ui/BackButton";
 
 export default function CameraComponent() {
   const videoRef = useRef<HTMLVideoElement | null>(null);

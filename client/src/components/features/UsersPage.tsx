@@ -1,10 +1,10 @@
 import { Laptop, Smartphone } from "lucide-react";
 
-export default function SantriContent() {
+export default function UsersPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-2xl font-bold">Data Santri</h3>
+        <h3 className="text-2xl font-bold">Users List</h3>
         <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
           Tambah Santri Baru
         </button>

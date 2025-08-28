@@ -5,30 +5,39 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(225))
-    face_embedding = Column(JSON)   # simpan vector encoding
+    face_embedding = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    LogLaptop = relationship("log_laptop", back_populates="user")
-    LogHp = relationship("log_hp", back_populates="user")
+    log_laptops = relationship("LogLaptop", back_populates="user")
+    log_hps = relationship("LogHp", back_populates="user")
+
 
 class LogLaptop(Base):
     __tablename__ = "log_laptop"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    status = Column(Enum("HADIR","SAKIT","IZIN", name="status_enum"), default="HADIR")
+    mengambil = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+    mengembalikan = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="log_laptop")
+    user = relationship("User", back_populates="log_laptops")
+
 
 class LogHp(Base):
     __tablename__ = "log_hp"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    status = Column(Enum("HADIR","SAKIT","IZIN", name="status_enum"), default="HADIR")
+    mengambil = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+    mengembalikan = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="log_hp")
+    user = relationship("User", back_populates="log_hps")

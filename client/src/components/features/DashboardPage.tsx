@@ -1,6 +1,6 @@
 import { Activity, Laptop, Smartphone, Users } from "lucide-react";
 
-export default function DashboardContent() {
+export default function DashboardPage() {
   const stats = [
     {
       title: "Total Santri",
