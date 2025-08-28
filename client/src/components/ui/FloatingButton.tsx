@@ -10,10 +10,10 @@ export default function FloatingButton() {
   const pathname = usePathname();
 
   const menus = [
-    { href: "/ambil-laptop", emot: "🫴💻", label: "Ambil Laptop" },
-    { href: "/ambil-hp", emot: "🫴📱", label: "Ambil HP" },
-    { href: "/kembali-laptop", emot: "🔁💻", label: "Kembalikan Laptop" },
-    { href: "/kembali-hp", emot: "🔁📱", label: "Kembalikan HP" },
+    { href: "/take-laptop", emot: "🫴💻", label: "Ambil Laptop" },
+    { href: "/take-phone", emot: "🫴📱", label: "Ambil HP" },
+    { href: "/return-laptop", emot: "🔁💻", label: "Kembalikan Laptop" },
+    { href: "/return-phone", emot: "🔁📱", label: "Kembalikan HP" },
   ];
   return (
     <>
