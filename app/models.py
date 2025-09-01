@@ -10,27 +10,20 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(225))
     face_embedding = Column(JSON)
+    tipe_class = Column(String(225))
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    log_laptops = relationship("LogLaptop", back_populates="user")
-    log_hps = relationship("LogHp", back_populates="user")
+    logs = relationship("LogBook", back_populates="user")
 
-class LogLaptop(Base):
-    __tablename__ = "log_laptop"
+
+class LogBook(Base):
+    __tablename__ = "log_books"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    mengambil = Column(Enum("SUDAH","BELUM", name="status_enum"), default="BELUM")
-    mengembalikan = Column(Enum("SUDAH","BELUM", name="status_enum"), default="BELUM")
+    tipe = Column(Enum("LAPTOP", "HP", name="tipe_enum"), nullable=False)
+    mengambil = Column(Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+    mengembalikan = Column(Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="log_laptops")
-
-class LogHp(Base):
-    __tablename__ = "log_hp"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    mengambil = Column(Enum("SUDAH","BELUM", name="status_enum"), default="BELUM")
-    mengembalikan = Column(Enum("SUDAH","BELUM", name="status_enum"), default="BELUM")
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    user = relationship("User", back_populates="log_hps")
+    user = relationship("User", back_populates="logs")

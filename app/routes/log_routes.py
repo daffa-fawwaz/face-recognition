@@ -1,6 +1,7 @@
+# app/routers/log_books.py
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.database import SessionLocal
-from app.models import User, LogLaptop, LogHp
+from app.models import User, LogBook
 from app.services.face_service import compare_faces
 from datetime import datetime, date
 import cv2, base64, json, numpy as np, face_recognition
@@ -13,7 +14,8 @@ def b64_to_cv2_img(b64str):
     np_arr = np.frombuffer(img_bytes, np.uint8)
     return cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-async def process_log(websocket: WebSocket, ModelClass):
+
+async def process_log(websocket: WebSocket, tipe: str):
     db = SessionLocal()
     users = db.query(User).all()
     known_encodings = [np.array(u.face_embedding) for u in users if u.face_embedding]
@@ -44,13 +46,15 @@ async def process_log(websocket: WebSocket, ModelClass):
 
                     today = date.today()
                     start_dt = datetime(today.year, today.month, today.day)
-                    log = db.query(ModelClass).filter(
-                        ModelClass.user_id == user.id,
-                        ModelClass.created_at >= start_dt
+
+                    log = db.query(LogBook).filter(
+                        LogBook.user_id == user.id,
+                        LogBook.tipe == tipe,
+                        LogBook.created_at >= start_dt
                     ).first()
 
                     if not log:
-                        log = ModelClass(user_id=user.id)
+                        log = LogBook(user_id=user.id, tipe=tipe)
                         db.add(log)
 
                     if action == "mengambil":
@@ -74,10 +78,10 @@ async def process_log(websocket: WebSocket, ModelClass):
 @router.websocket("/log-laptop")
 async def log_laptop_ws(websocket: WebSocket):
     await websocket.accept()
-    await process_log(websocket, LogLaptop)
+    await process_log(websocket, tipe="LAPTOP")
 
 
 @router.websocket("/log-hp")
 async def log_hp_ws(websocket: WebSocket):
     await websocket.accept()
-    await process_log(websocket, LogHp)
+    await process_log(websocket, tipe="HP")

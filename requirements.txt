@@ -6,6 +6,8 @@ opencv-python-headless
 face_recognition
 numpy
 python-multipart
+criptography
+python-dotenv
 
 
 # pip3 install -r requirements.txt
