@@ -2,7 +2,7 @@ import { Camera, Laptop, LogIn, LogOut, Smartphone } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function AbsensiContent() {
+export default function AttendanceCameraPage() {
   const [selectedDevice, setSelectedDevice] = useState("laptop");
 
   return (
@@ -56,7 +56,7 @@ export default function AbsensiContent() {
             <Camera className="text-gray-400" size={64} />
           </div>
           <Link
-            href={selectedDevice === "laptop" ? "/ambil-laptop" : "ambil-hp"}
+            href={selectedDevice === "laptop" ? "/take-laptop" : "take-phone"}
           >
             <button className="w-full cursor-pointer bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium">
               Mulai Face Recognition - Ambil{" "}
@@ -73,7 +73,11 @@ export default function AbsensiContent() {
           <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center mb-4">
             <Camera className="text-gray-400" size={64} />
           </div>
-          <Link href={selectedDevice === "laptop" ? "/kembali-laptop" : "kembali-hp"}>
+          <Link
+            href={
+              selectedDevice === "laptop" ? "/return-laptop" : "return-phone"
+            }
+          >
             <button className="w-full cursor-pointer bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-medium">
               Mulai Face Recognition - Kembalikan{" "}
               {selectedDevice === "laptop" ? "Laptop" : "HP"}

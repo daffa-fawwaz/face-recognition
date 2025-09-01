@@ -26,7 +26,7 @@ export default function BackButton() {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className="absolute bg-slate-950 text-white hover:bg-slate-950 hover:text-white top-8 left-3 rounded-full cursor-pointer"
+          className="bg-slate-950 text-white hover:bg-slate-950 hover:text-white top-8 left-3 rounded-xl cursor-pointer"
           variant="outline"
         >
           <ArrowLeft />

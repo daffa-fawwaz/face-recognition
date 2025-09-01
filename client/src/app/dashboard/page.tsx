@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Users, Activity, Laptop, Home, Menu, X } from "lucide-react";
-import DashboardContent from "@/components/DashboardPage";
-import AbsensiContent from "@/components/AbsensiContent";
-import SantriContent from "@/components/SantriContent";
-import RiwayatContent from "@/components/RiwayatContent";
+import DashboardContent from "@/components/features/DashboardPage";
+import AbsensiContent from "@/components/features/AttendanceCameraPage";
+import SantriContent from "@/components/features/UsersPage";
+import RiwayatContent from "@/components/features/LogbookPage";
 
 export default function PondokAbsensiDashboard() {
   const [activeMenu, setActiveMenu] = useState("dashboard");
@@ -13,20 +13,20 @@ export default function PondokAbsensiDashboard() {
 
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: Home },
-    { id: "absensi", label: "Absensi Perangkat", icon: Laptop },
-    { id: "santri", label: "Data Santri", icon: Users },
-    { id: "riwayat", label: "Riwayat Peminjaman", icon: Activity },
+    { id: "attendance", label: "Attendance", icon: Laptop },
+    { id: "users", label: "Users List", icon: Users },
+    { id: "logbook", label: "Logbook", icon: Activity },
   ];
 
   const renderContent = () => {
     switch (activeMenu) {
       case "dashboard":
         return <DashboardContent />;
-      case "absensi":
+      case "attendance":
         return <AbsensiContent />;
-      case "santri":
+      case "users":
         return <SantriContent />;
-      case "riwayat":
+      case "logbook":
         return <RiwayatContent />;
       default:
         return <DashboardContent />;
@@ -44,7 +44,7 @@ export default function PondokAbsensiDashboard() {
         <div className="flex border items-center justify-between h-16 px-6 bg-white-900">
           <div>
             <h1 className="text-lg font-bold">Absensi Perangkat</h1>
-            <p className="text-xs text-black">Pondok Pesantren</p>
+            <p className="text-xs text-black">HSI Boarding School</p>
           </div>
           <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
             <X size={24} />
@@ -99,7 +99,7 @@ export default function PondokAbsensiDashboard() {
                 "Dashboard"}
             </h2>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600">Admin Pondok</div>
+              <div className="text-sm text-gray-600">Admin</div>
               <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
                 A
               </div>
