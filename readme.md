@@ -19,7 +19,7 @@ Frontend dapat menggunakan React (atau lainnya) untuk berinteraksi dengan API in
 
 Pastikan sudah menginstall:
 
-- Python **3.9+**
+- Python **3.11.x**
 - MySQL (contoh: XAMPP, MAMP, Laravel Herd, dll.)
 - Virtual environment (opsional tapi disarankan)
 
@@ -44,7 +44,11 @@ Pastikan sudah menginstall:
    ```
 4. **Konfigurasi .env**
    ```
-   DATABASE_URL=mysql+pymysql://root:root@localhost:3306/face_recog_db
+   DB_USER=root
+   DB_PASSWORD=password
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_NAME=face_recog_db
    ```
 5. **Buat database**
    ```
