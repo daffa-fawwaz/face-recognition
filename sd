@@ -1,0 +1,63 @@
+[33mcommit f249c8a6561553ec2827abc2f05cdf3ab9ddb58d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mclient[m[33m, [m[1;31morigin/client[m[33m)[m
+Author: Muhammad Hamka <hamkarifai49@gmail.com>
+Date:   Thu Aug 28 14:25:20 2025 +0700
+
+    feat: integrate OpenCV camera with WebSocket per route
+    
+    - Sync camera stream with OpenCV and WebSocket server
+    - Send frames to correct URL based on current route
+    - Differentiate actions between "mengambil" and "mengembalikan"
+
+[33mcommit e9e1fed79c9d51a68d68eb8cbf556dc408ac6d51[m
+Author: Muhammad Hamka <hamkarifai49@gmail.com>
+Date:   Thu Aug 28 11:47:25 2025 +0700
+
+    mengubah penamaan folder dan function menjadi bahasa inggris
+
+[33mcommit fe98d192cc955d059b0d4fdc7a285879cca5edf3[m
+Author: Muhammad Hamka <hamkarifai49@gmail.com>
+Date:   Wed Aug 27 18:48:16 2025 +0700
+
+    add client
+
+[33mcommit 1940ecaeafe7b1fa3ca89267ba851148eab50f81[m[33m ([m[1;31morigin/staging[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Daffa Fawwaz <daffafawwaz@Daffa-Fawwazs-MacBook-Air.local>
+Date:   Mon Aug 25 07:56:46 2025 +0700
+
+    feat: tabel hp, laptop
+
+[33mcommit 23665e6542d85326a06f3925d0dba9a3f5e848e1[m
+Author: Daffa Fawwaz <daffafawwaz@Daffa-Fawwazs-MacBook-Air.local>
+Date:   Mon Aug 25 07:41:42 2025 +0700
+
+    first commit
+
+[33mcommit dd3c4c8371fa49652ad104eb463aedfcc7800ab4[m
+Author: Daffa Fawwaz <daffafawwaz@Daffa-Fawwazs-MacBook-Air.local>
+Date:   Sat Aug 23 09:30:53 2025 +0700
+
+    feat: fix bug
+
+[33mcommit a890f25b10b92914c19d847b4f94c7d1c06ad388[m
+Author: DaffaFawwaz <143053942+daffa-fawwaz@users.noreply.github.com>
+Date:   Fri Aug 22 10:29:33 2025 +0700
+
+    Update README.md
+
+[33mcommit a96f3b1763adfc2ca74729b7c40b807dc10809d7[m
+Author: DaffaFawwaz <143053942+daffa-fawwaz@users.noreply.github.com>
+Date:   Fri Aug 22 10:24:09 2025 +0700
+
+    Update README.md
+
+[33mcommit e22aeaf1df6e800a3bd7817e227659d934f68d0c[m
+Author: DaffaFawwaz <143053942+daffa-fawwaz@users.noreply.github.com>
+Date:   Fri Aug 22 10:21:16 2025 +0700
+
+    Create README.md
+
+[33mcommit 66db0a0aa3995a5788037d1ec5d90fc196960f3c[m
+Author: Daffa Fawwaz <daffafawwaz@Daffa-Fawwazs-MacBook-Air.local>
+Date:   Fri Aug 22 10:07:24 2025 +0700
+
+    first commit

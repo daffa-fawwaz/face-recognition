@@ -5,6 +5,7 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -21,8 +22,10 @@ class LogBook(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     tipe = Column(Enum("LAPTOP", "HP", name="tipe_enum"), nullable=False)
-    mengambil = Column(Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
-    mengembalikan = Column(Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+    mengambil = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
+    mengembalikan = Column(
+        Enum("SUDAH", "BELUM", name="status_enum"), default="BELUM")
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
