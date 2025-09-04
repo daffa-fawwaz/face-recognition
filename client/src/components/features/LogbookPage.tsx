@@ -1,6 +1,35 @@
+import axios from "axios";
 import { Laptop, Smartphone } from "lucide-react";
+import { useEffect, useState } from "react";
 
+export interface Logbook {
+  id: number;
+  user_id: number;
+  name: string;
+  tipe: "LAPTOP" | "HP";
+  mengambil: "SUDAH" | "BELUM";
+  mengembalikan: "SUDAH" | "BELUM";
+  created_at: string;
+}
 export default function LogbookPage() {
+  const [logs, setLogs] = useState<Logbook[]>([]);
+
+  useEffect(() => {
+    const fetchLogs = async () => {
+      const [laptopRes, hpRes] = await Promise.all([
+        axios.get("http://127.0.0.1:8000/users/all/log-laptop"),
+        axios.get("http://127.0.0.1:8000/users/all/log-hp"),
+      ]);
+
+      const laptopLogs = laptopRes.data["log-laptop"];
+      const hpLogs = hpRes.data["log-hp"];
+      
+      setLogs([...laptopLogs, ...hpLogs])
+    };
+
+    fetchLogs();
+  }, []);
+
   return (
     <div className="space-y-6">
       <h3 className="text-2xl font-bold">Logbook</h3>
@@ -39,88 +68,42 @@ export default function LogbookPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID User
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nama
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tipe
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Mengambil
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Mengembalikan
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Waktu
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Santri
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Perangkat
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aksi
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Durasi Pinjam
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {[
-                {
-                  waktu: "14:30 WIB",
-                  santri: "Ahmad Fauzi",
-                  perangkat: "LP-001",
-                  aksi: "Ambil Laptop",
-                  durasi: "1 jam 30 menit",
-                  type: "laptop",
-                },
-                {
-                  waktu: "14:25 WIB",
-                  santri: "Siti Aisyah",
-                  perangkat: "HG-015",
-                  aksi: "Kembalikan HP",
-                  durasi: "2 jam 15 menit",
-                  type: "hp",
-                },
-                {
-                  waktu: "14:20 WIB",
-                  santri: "Abdullah Aziz",
-                  perangkat: "LP-008",
-                  aksi: "Ambil Laptop",
-                  durasi: "45 menit",
-                  type: "laptop",
-                },
-                {
-                  waktu: "14:15 WIB",
-                  santri: "Fatimah Zahra",
-                  perangkat: "HG-008",
-                  aksi: "Kembalikan HP",
-                  durasi: "3 jam 20 menit",
-                  type: "hp",
-                },
-                {
-                  waktu: "14:10 WIB",
-                  santri: "Muhammad Rizki",
-                  perangkat: "LP-023",
-                  aksi: "Ambil Laptop",
-                  durasi: "2 jam 5 menit",
-                  type: "laptop",
-                },
-                {
-                  waktu: "14:05 WIB",
-                  santri: "Yusuf Hakim",
-                  perangkat: "HG-012",
-                  aksi: "Kembalikan HP",
-                  durasi: "1 jam 45 menit",
-                  type: "hp",
-                },
-              ].map((riwayat, index) => (
+              {logs.map((riwayat, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {riwayat.waktu}
+                    {riwayat.user_id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <div className="flex items-center">
                       <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
-                        {riwayat.santri.charAt(0)}
+                        {riwayat.name.charAt(0)}
                       </div>
-                      {riwayat.santri}
+                      {riwayat.name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                     <div className="flex items-center">
-                      {riwayat.type === "laptop" ? (
+                      {riwayat.tipe === "LAPTOP" ? (
                         <Laptop className="text-blue-500 mr-2" size={16} />
                       ) : (
                         <Smartphone
@@ -128,22 +111,33 @@ export default function LogbookPage() {
                           size={16}
                         />
                       )}
-                      {riwayat.perangkat}
+                      {riwayat.tipe}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 py-1 text-xs rounded-full ${
-                        riwayat.aksi.includes("Ambil")
+                        riwayat.mengambil === "SUDAH"
                           ? "bg-blue-100 text-blue-800"
-                          : "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {riwayat.aksi}
+                      {riwayat.mengambil}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        riwayat.mengembalikan === "BELUM"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {riwayat.mengembalikan}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {riwayat.durasi}
+                    {riwayat.created_at}
                   </td>
                 </tr>
               ))}

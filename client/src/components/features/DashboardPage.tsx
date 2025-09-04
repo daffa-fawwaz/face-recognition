@@ -1,61 +1,39 @@
-import { Activity, Laptop, Smartphone, Users } from "lucide-react";
+import { Laptop, Smartphone, Users } from "lucide-react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
-  const stats = [
-    {
-      title: "Total Santri",
-      value: "150",
-      icon: Users,
-      color: "bg-blue-500",
-      change: "+5 bulan ini",
-    },
-    {
-      title: "Laptop Tersedia",
-      value: "25/30",
-      icon: Laptop,
-      color: "bg-green-500",
-      change: "5 sedang dipinjam",
-    },
-    {
-      title: "HP Tersedia",
-      value: "18/20",
-      icon: Smartphone,
-      color: "bg-purple-500",
-      change: "2 sedang dipinjam",
-    },
-    {
-      title: "Aktivitas Hari Ini",
-      value: "23",
-      icon: Activity,
-      color: "bg-orange-500",
-      change: "peminjaman & pengembalian",
-    },
-  ];
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:8000/users/count");
+        setTotalUsers(res.data.total_users);
+      } catch (err) {
+        console.log("Failed To fetch data", err);
+      }
+    };
+
+    fetchCount();
+  }, []);
+
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => {
-          const IconComponent = stat.icon;
-          return (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
-                    {stat.title}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
-                  <p className="text-sm text-gray-500">{stat.change}</p>
-                </div>
-                <div className={`${stat.color} p-3 rounded-full text-white`}>
-                  <IconComponent size={24} />
-                </div>
-              </div>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total Santri</p>
+              <p className="text-2xl font-bold text-gray-900">{totalUsers}</p>
+              <p className="text-sm text-gray-500">HSI BS Purworejo</p>
             </div>
-          );
-        })}
+            <div className={`bg-blue-500 p-3 rounded-full text-white`}>
+              <Users />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
