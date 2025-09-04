@@ -11,6 +11,7 @@ export interface Logbook {
   mengembalikan: "SUDAH" | "BELUM";
   created_at: string;
 }
+
 export default function LogbookPage() {
   const [logs, setLogs] = useState<Logbook[]>([]);
 
