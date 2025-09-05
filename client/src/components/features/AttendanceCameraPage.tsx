@@ -86,13 +86,13 @@ export default function AttendanceCameraPage() {
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      {/* <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold mb-4">Status Absensi Terakhir</h3>
         <div className="text-center py-8 text-gray-500">
           Belum ada aktivitas absensi. Silakan gunakan face recognition untuk
           memulai.
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

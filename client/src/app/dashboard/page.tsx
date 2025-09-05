@@ -44,7 +44,7 @@ export default function PondokAbsensiDashboard() {
         <div className="flex border items-center justify-between h-16 px-6 bg-white-900">
           <div>
             <h1 className="text-lg font-bold">Absensi Perangkat</h1>
-            <p className="text-xs text-black">HSI Boarding School</p>
+            <p className="text-xs text-black">HSI Boarding School Purworejo</p>
           </div>
           <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
             <X size={24} />
