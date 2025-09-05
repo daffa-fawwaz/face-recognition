@@ -33,8 +33,6 @@ async def register_user(name: str = Form(...), file: UploadFile = File(...), tip
     finally:
         db.close()
 
-
-# -------- GET LOG LAPTOP --------
 @router.get("/all/log-laptop")
 def get_all_laptop_logs():
     db = SessionLocal()
@@ -58,7 +56,6 @@ def get_all_laptop_logs():
         db.close()
 
 
-# -------- GET LOG HP --------
 @router.get("/all/log-hp")
 def get_all_hp_logs():
     db = SessionLocal()
