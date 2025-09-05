@@ -63,3 +63,80 @@ Pastikan sudah menginstall:
    ```
     http://127.0.0.1:8000
    ```
+
+## ▶️ Dokumentasi API Websocket
+
+```
+/ws/log-laptop
+
+Requets
+{
+  "frame": "data:image/jpeg;base64,...",
+  "action": "mengambil"
+}
+
+Response
+{
+  "results": [
+    {
+      "name": "John Doe",
+      "status": "MENGAMBIL_SUCCESS"
+    }
+  ]
+}
+
+Requets
+{
+  "frame": "data:image/jpeg;base64,...",
+  "action": "mengembalikan"
+}
+
+Response
+{
+  "results": [
+    {
+      "name": "John Doe",
+      "status": "MENGEMBALIKAN_SUCCESS"
+    }
+  ]
+}
+
+```
+
+/ws/log-laptop
+
+Requets
+{
+"frame": "data:image/jpeg;base64,...",
+"action": "mengambil"
+}
+
+Response
+{
+"results": [
+{
+"name": "John Doe",
+"status": "MENGAMBIL_SUCCESS"
+}
+]
+}
+
+Requets
+{
+"frame": "data:image/jpeg;base64,...",
+"action": "mengembalikan"
+}
+
+Response
+{
+"results": [
+{
+"name": "John Doe",
+"status": "MENGEMBALIKAN_SUCCESS"
+}
+]
+}
+
+```
+
+```
