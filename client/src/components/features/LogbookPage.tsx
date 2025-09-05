@@ -15,6 +15,17 @@ export interface Logbook {
 export default function LogbookPage() {
   const [logs, setLogs] = useState<Logbook[]>([]);
 
+  function convertToWIB(datetimeStr: string) {
+    // Bikin string ISO UTC: "2025-09-05T06:22:01Z"
+    const utcDate = new Date(datetimeStr.replace(" ", "T") + "Z");
+
+    // Konversi ke WIB (Asia/Jakarta)
+    return utcDate.toLocaleString("id-ID", {
+      timeZone: "Asia/Jakarta",
+      hour12: false,
+    });
+  }
+
   useEffect(() => {
     const fetchLogs = async () => {
       const [laptopRes, hpRes] = await Promise.all([
@@ -24,8 +35,13 @@ export default function LogbookPage() {
 
       const laptopLogs = laptopRes.data["log-laptop"];
       const hpLogs = hpRes.data["log-hp"];
-      
-      setLogs([...laptopLogs, ...hpLogs])
+
+      const mergedLogs = [...laptopLogs, ...hpLogs].map((log) => ({
+        ...log,
+        created_at: convertToWIB(log.created_at),
+      }));
+
+      setLogs(mergedLogs);
     };
 
     fetchLogs();
@@ -89,59 +105,61 @@ export default function LogbookPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {logs.map((riwayat, index) => (
-                <tr key={index}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {riwayat.user_id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
-                        {riwayat.name.charAt(0)}
+              {logs.map((riwayat, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {riwayat.user_id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                          {riwayat.name.charAt(0)}
+                        </div>
+                        {riwayat.name}
                       </div>
-                      {riwayat.name}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                    <div className="flex items-center">
-                      {riwayat.tipe === "LAPTOP" ? (
-                        <Laptop className="text-blue-500 mr-2" size={16} />
-                      ) : (
-                        <Smartphone
-                          className="text-purple-500 mr-2"
-                          size={16}
-                        />
-                      )}
-                      {riwayat.tipe}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        riwayat.mengambil === "SUDAH"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {riwayat.mengambil}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        riwayat.mengembalikan === "BELUM"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {riwayat.mengembalikan}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {riwayat.created_at}
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                      <div className="flex items-center">
+                        {riwayat.tipe === "LAPTOP" ? (
+                          <Laptop className="text-blue-500 mr-2" size={16} />
+                        ) : (
+                          <Smartphone
+                            className="text-purple-500 mr-2"
+                            size={16}
+                          />
+                        )}
+                        {riwayat.tipe}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          riwayat.mengambil === "SUDAH"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {riwayat.mengambil}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          riwayat.mengembalikan === "BELUM"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {riwayat.mengembalikan}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {riwayat.created_at}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
