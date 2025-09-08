@@ -1,10 +1,9 @@
-# app/main.py
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
 import os
-from dotenv import load_dotenv
+from fastapi import FastAPI
 from app.database import init_db
 from app.routes import log_routes, user_routes
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
 app = FastAPI()
 
