@@ -10,9 +10,15 @@ export interface Logbook {
   mengambil: "SUDAH" | "BELUM";
   mengembalikan: "SUDAH" | "BELUM";
   created_at: string;
+  raw_date: string;
+  only_date: string;
 }
 
 export default function LogbookPage() {
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedAction, setSelectedAction] = useState<string>("Semua Aksi");
+  const [selectedDevice, setSelectedDevice] =
+    useState<string>("Semua Perangkat");
   const [logs, setLogs] = useState<Logbook[]>([]);
 
   function convertToWIB(datetimeStr: string) {
@@ -36,16 +42,59 @@ export default function LogbookPage() {
       const laptopLogs = laptopRes.data["log-laptop"];
       const hpLogs = hpRes.data["log-hp"];
 
-      const mergedLogs = [...laptopLogs, ...hpLogs].map((log) => ({
-        ...log,
-        created_at: convertToWIB(log.created_at),
-      }));
+      const mergedLogs = [...laptopLogs, ...hpLogs].map((log) => {
+        const utcDate = new Date(log.created_at.replace(" ", "T") + "Z");
+
+        // bikin format dd/mm/yyyy
+        const dd = String(utcDate.getDate()).padStart(2, "0");
+        const mm = String(utcDate.getMonth() + 1).padStart(2, "0");
+        const yyyy = utcDate.getFullYear();
+        const onlyDate = `${dd}/${mm}/${yyyy}`;
+
+        return {
+          ...log,
+          raw_date: utcDate, // buat jaga2 kalau perlu
+          created_at: convertToWIB(log.created_at), // full datetime buat tampil
+          only_date: onlyDate, // simpan dd/mm/yyyy
+        };
+      });
 
       setLogs(mergedLogs);
     };
 
     fetchLogs();
   }, []);
+
+  const filteredLogs = logs.filter((log) => {
+    let match = true;
+
+    // filter date
+    if (selectedDate) {
+      // dari input (yyyy-mm-dd) → konversi ke dd/mm/yyyy
+      const [yyyy, mm, dd] = selectedDate.split("-");
+      const formatted = `${dd}/${mm}/${yyyy}`;
+
+      if (log.only_date !== formatted) match = false;
+    }
+
+    // filter device
+    if (selectedDevice !== "Semua Perangkat") {
+      if (log.tipe !== selectedDevice.toUpperCase()) match = false;
+    }
+
+    // filter action
+    if (selectedAction === "Ambil Perangkat" && log.mengambil !== "SUDAH") {
+      match = false;
+    }
+    if (
+      selectedAction === "Kembalikan Perangkat" &&
+      log.mengembalikan !== "SUDAH"
+    ) {
+      match = false;
+    }
+
+    return match;
+  });
 
   return (
     <div className="space-y-6">
@@ -55,23 +104,25 @@ export default function LogbookPage() {
         <div className="flex flex-wrap space-x-4 mb-4">
           <input
             type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           />
-          <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-            <option>Semua Santri</option>
-            <option>Ahmad Fauzi</option>
-            <option>Siti Aisyah</option>
-            <option>Muhammad Rizki</option>
-            <option>Abdullah Aziz</option>
-            <option>Yusuf Hakim</option>
-            <option>Fatimah Zahra</option>
-          </select>
-          <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+
+          <select
+            value={selectedAction}
+            onChange={(e) => setSelectedAction(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             <option>Semua Aksi</option>
             <option>Ambil Perangkat</option>
             <option>Kembalikan Perangkat</option>
           </select>
-          <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+          <select
+            value={selectedDevice}
+            onChange={(e) => setSelectedDevice(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             <option>Semua Perangkat</option>
             <option>Laptop</option>
             <option>HP</option>
@@ -105,7 +156,7 @@ export default function LogbookPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {logs.map((riwayat, index) => {
+              {filteredLogs.map((riwayat, index) => {
                 return (
                   <tr key={index}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
