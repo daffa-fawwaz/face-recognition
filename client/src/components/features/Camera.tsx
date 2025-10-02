@@ -211,12 +211,12 @@ export default function OpenCVCameraComponent() {
       <FloatingButton />
 
       {/* Timer hanya jalan kalau WS aktif */}
-      <div className="px-3 py-2 absolute bottom-20 bg-purple-500 text-white rounded-lg text-sm font-medium">
+      <div className="px-5 py-2 absolute right-4 top-8 bg-purple-500 text-white rounded-lg text-sm font-medium">
         ⏱️ Timer: {formatTime(elapsedTime)}
       </div>
 
       {/* Tombol khusus untuk WS */}
-      <div className="absolute bottom-8 flex gap-4">
+      <div className="absolute right-4 top-20 flex gap-4">
         <button
           onClick={startWebSocket}
           disabled={isConnected}
@@ -239,9 +239,9 @@ export default function OpenCVCameraComponent() {
       </div>
 
       {/* Detection Results */}
-      <div className="absolute right-4 top-4 max-w-sm">
+      <div className="absolute bottom-12 max-w-sm w-full text-center">
         <div className="bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-xl">
-          <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+          <h3 className="font-bold text-xl text-gray-800 mb-3 flex items-center justify-center gap-2">
             🎯 Detection Results
           </h3>
 
